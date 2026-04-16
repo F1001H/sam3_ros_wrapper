@@ -25,6 +25,7 @@ class SAM3InferenceProcess(mp.Process):
         print("SAM3 Process: Model Ready.")
 
         while True:
+            print('processing frame')
             rgb_frame = self.input_queue.get() 
             if rgb_frame is None: break # Graceful shutdown
             
@@ -35,3 +36,4 @@ class SAM3InferenceProcess(mp.Process):
                 output = processor.set_text_prompt(state=state, prompt=self.prompt)
             
             self.output_queue.put((rgb_frame, output["masks"].cpu().numpy()))
+            print('processing done')
